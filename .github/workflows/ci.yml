@@ -20,6 +20,10 @@ jobs:
         with:
           python-version: '3.11'
        
+      - name: Install linters
+        run: |
+          pip install flake8 isort pylint black
+      
       - name: Run Flake8 linting
         run: |
           echo "Running Flake8..."
