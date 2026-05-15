@@ -32,7 +32,7 @@ jobs:
       - name: Check import order with isort
         run: |
           echo "Running isort..."
-          isort --check-only --profile black --line-length 120  dags/flows
+          isort --check-only --profile black --line-length 120  src
 
       - name: Run Pylint quality check
         #        continue-on-error: true
