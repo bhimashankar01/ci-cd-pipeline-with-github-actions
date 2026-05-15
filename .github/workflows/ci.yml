@@ -11,15 +11,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5
+        uses: actions/checkout@v4
         with:
           lfs: true
-    
+      
       - name: Set up Python
-        uses: actions/setup-python@7f4fc3e22c37d6ff65e88745f38bd3157c663f7c
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      
+       
       - name: Run Flake8 linting
         run: |
           echo "Running Flake8..."
@@ -42,6 +42,8 @@ jobs:
           black --check --line-length 120 src
   
   test:
+    name: Execute Tests
+    needs: [run-linters]
     runs-on: ubuntu-latest
 
     steps:
