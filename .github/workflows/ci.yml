@@ -7,6 +7,40 @@ on:
     branches: [ main ]
 
 jobs:
+  run-linters:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5
+        with:
+          lfs: true
+    
+      - name: Set up Python
+        uses: actions/setup-python@7f4fc3e22c37d6ff65e88745f38bd3157c663f7c
+        with:
+          python-version: '3.11'
+      
+      - name: Run Flake8 linting
+        run: |
+          echo "Running Flake8..."
+          flake8 src --max-line-length=120 --statistics  --ignore=F401,E203,W503
+
+      - name: Check import order with isort
+        run: |
+          echo "Running isort..."
+          isort --check-only --profile black --line-length 120  dags/flows
+
+      - name: Run Pylint quality check
+        #        continue-on-error: true
+        run: |
+          echo "Running pylint..."
+          pylint --disable=R0914,W0718,E0401,R0801 --output-format=colorized --max-line-length=120 --fail-under=9.0 src
+
+      - name: Run Black formatting check
+        run: |
+          echo "Running Black..."
+          black --check --line-length 120 src
+  
   test:
     runs-on: ubuntu-latest
 
